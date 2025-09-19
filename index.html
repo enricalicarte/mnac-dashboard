@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard CRM - MNAC</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .info-badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #2563eb;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .tabs {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 0.25rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: none;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #6b7280;
+        }
+
+        .tab-btn:hover {
+            color: #3b82f6;
+        }
+
+        .tab-btn.active {
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .metric-card.blue { border-left-color: #3b82f6; }
+        .metric-card.green { border-left-color: #10b981; }
+        .metric-card.yellow { border-left-color: #f59e0b; }
+        .metric-card.red { border-left-color: #ef4444; }
+        .metric-card.purple { border-left-color: #8b5cf6; }
+
+        .metric-info h3 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-info .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-info .change {
+            font-size: 0.875rem;
+            color: #10b981;
+        }
+
+        .metric-icon {
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-canvas {
+            position: relative;
+            height: 320px;
+        }
+
+        .engagement-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .engagement-card {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .engagement-card.blue { background: #eff6ff; }
+        .engagement-card.green { background: #ecfdf5; }
+        .engagement-card.purple { background: #f3e8ff; }
+        .engagement-card.orange { background: #fef3c7; }
+        .engagement-card.red { background: #fef2f2; }
+
+        .big-number {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .engagement-card.blue .big-number { color: #2563eb; }
+        .engagement-card.green .big-number { color: #059669; }
+        .engagement-card.purple .big-number { color: #7c3aed; }
+        .engagement-card.orange .big-number { color: #d97706; }
+        .engagement-card.red .big-number { color: #dc2626; }
+
+        .label {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: #f9fafb;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .data-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .data-table .name {
+            font-weight: 500;
+            color: #111827;
+        }
+
+        .data-table .number {
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .insight-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+        }
+
+        .insight-box p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .chart-canvas { height: 250px; }
+            body { padding: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dashboard CRM - MNAC</h1>
+            <p>Estratègia de Base de Dades i Comunicacions Relacionals</p>
+            <div class="info-badge">
+                Dades actualitzades: 185.279 contactes totals | 61.920 contactes actius (33,4%)
+            </div>
+        </div>
+
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="overview">Base de Dades</button>
+                <button class="tab-btn" data-tab="fastpass">Fast Pass</button>
+                <button class="tab-btn" data-tab="segments">Segments</button>
+                <button class="tab-btn" data-tab="comunicacions">Comunicacions Email</button>
+                <button class="tab-btn" data-tab="enquestes">Enquestes</button>
+            </div>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="grid grid-4">
+                <div class="metric-card blue">
+                    <div class="metric-info">
+                        <h3>Total Base de Dades</h3>
+                        <div class="value">185.279</div>
+                        <div class="change">Contactes totals</div>
+                    </div>
+                    <div class="metric-icon">👥</div>
+                </div>
+                <div class="metric-card green">
+                    <div class="metric-info">
+                        <h3>Contactes Actius</h3>
+                        <div class="value">61.920</div>
+                        <div class="change">33,4% del total</div>
+                    </div>
+                    <div class="metric-icon">✅</div>
+                </div>
+                <div class="metric-card yellow">
+                    <div class="metric-info">
+                        <h3>Contactes Classificats</h3>
+                        <div class="value">138.307</div>
+                        <div class="change">74,7% classificats</div>
+                    </div>
+                    <div class="metric-icon">📊</div>
+                </div>
+                <div class="metric-card red">
+                    <div class="metric-info">
+                        <h3>Contactes Inactius</h3>
+                        <div class="value">123.359</div>
+                        <div class="change">66,6% potencial millora</div>
+                    </div>
+                    <div class="metric-icon">⚡</div>
+                </div>
+            </div>
+
+            <div class="grid grid-2">
+                <div class="chart-container">
+                    <h3 class="chart-title">Distribució de Contactes Actius</h3>
+                    <div class="chart-canvas">
+                        <canvas id="activesChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">Distribució per Idiomes</h3>
+                    <div class="chart-canvas">
+                        <canvas id="languageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Contactes Actius per llista</h3>
+                <div class="engagement-cards">
+                    <div class="engagement-card green">
+                        <div class="big-number">26.371</div>
+                        <div class="label">Total Butlletins</div>
+                    </div>
+                    <div class="engagement-card blue">
+                        <div class="big-number">17.526</div>
+                        <div class="label">Cap de Setmana</div>
+                    </div>
+                    <div class="engagement-card purple">
+                        <div class="big-number">7.837</div>
+                        <div class="label">Programes Educatius</div>
+                    </div>
+                    <div class="engagement-card orange">
+                        <div class="big-number">3.211</div>
+                        <div class="label">Protocol</div>
+                    </div>
+					<div class="engagement-card orange">
+                        <div class="big-number">2.284</div>
+                        <div class="label">Famílies</div>
+                    </div>
+					<div class="engagement-card purple">
+                        <div class="big-number">1.512</div>
+                        <div class="label">Campanyes Comunicació</div>
+                    </div>
+					<div class="engagement-card blue">
+                        <div class="big-number">1.121</div>
+                        <div class="label">Arxiu i Biblioteca</div>
+                    </div>
+						<div class="engagement-card green">
+                        <div class="big-number">683</div>
+                        <div class="label">Numismàtica</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fast Pass Tab -->
+        <div id="fastpass" class="tab-content">
+            <div class="grid grid-4">
+                <div class="metric-card purple">
+                    <div class="metric-info">
+                        <h3>Total Reserves</h3>
+                        <div class="value">24.046</div>
+                        <div class="change">Últims 24 mesos</div>
+                    </div>
+                    <div class="metric-icon">📅</div>
+                </div>
+                <div class="metric-card green">
+                    <div class="metric-info">
+                        <h3>Total Visitants</h3>
+                        <div class="value">51.283</div>
+                        <div class="change">Persones reservades</div>
+                    </div>
+                    <div class="metric-icon">👥</div>
+                </div>
+                <div class="metric-card yellow">
+                    <div class="metric-info">
+                        <h3>Promig per Reserva</h3>
+                        <div class="value">2,1</div>
+                        <div class="change">Persones per reserva</div>
+                    </div>
+                    <div class="metric-icon">🎯</div>
+                </div>
+                <div class="metric-card blue">
+                    <div class="metric-info">
+                        <h3>Taxa Conversió</h3>
+                        <div class="value">13,0%</div>
+                        <div class="change">Vs visites totals</div>
+                    </div>
+                    <div class="metric-icon">📊</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Evolució Fast Pass - Últims 12 Mesos</h3>
+                <div class="chart-canvas">
+                    <canvas id="fastPassChart"></canvas>
+                </div>
+            </div>
+
+            <div class="grid grid-2">
+                <div class="chart-container">
+                    <h3 class="chart-title">Distribució per Mida de Grup</h3>
+                    <div class="chart-canvas">
+                        <canvas id="groupSizeChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">Perfil de Visitants</h3>
+                    <div class="engagement-cards">
+                        <div class="engagement-card blue">
+                            <div class="big-number">40,8%</div>
+                            <div class="label">Parelles</div>
+                        </div>
+                        <div class="engagement-card green">
+                            <div class="big-number">35,0%</div>
+                            <div class="label">Individuals</div>
+                        </div>
+                        <div class="engagement-card purple">
+                            <div class="big-number">17,5%</div>
+                            <div class="label">Grups petits</div>
+                        </div>
+                        <div class="engagement-card orange">
+                            <div class="big-number">6,7%</div>
+                            <div class="label">Grups grans</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Segments Tab -->
+        <div id="segments" class="tab-content">
+            <div class="grid grid-4">
+                <div class="metric-card purple">
+                    <div class="metric-info">
+                        <h3>Públic General</h3>
+                        <div class="value">120.219</div>
+                        <div class="change">87,0% del total</div>
+                    </div>
+                    <div class="metric-icon">🎯</div>
+                </div>
+                <div class="metric-card blue">
+                    <div class="metric-info">
+                        <h3>Programes Educatius</h3>
+                        <div class="value">10.311</div>
+                        <div class="change">76% taxa activació</div>
+                    </div>
+                    <div class="metric-icon">🎓</div>
+                </div>
+                <div class="metric-card green">
+                    <div class="metric-info">
+                        <h3>Direcció i Protocol</h3>
+                        <div class="value">4.112</div>
+                        <div class="change">78% taxa activació</div>
+                    </div>
+                    <div class="metric-icon">📋</div>
+                </div>
+                <div class="metric-card yellow">
+                    <div class="metric-info">
+                        <h3>Gabinet Numismàtic</h3>
+                        <div class="value">609</div>
+                        <div class="change">75% taxa activació</div>
+                    </div>
+                    <div class="metric-icon">🪙</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Distribució Completa per Àrees de Relació</h3>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Àrea de Relació</th>
+                                <th style="text-align: center;">Total Contactes</th>
+                                <th style="text-align: center;">% del Total BDD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="name">Públic General</td>
+                                <td class="number">120.219</td>
+                                <td style="text-align: center;"><span class="badge">64,9%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Programes Públics i Educació</td>
+                                <td class="number">10.311</td>
+                                <td style="text-align: center;"><span class="badge">5,6%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Direcció Protocol i Gerència</td>
+                                <td class="number">4.112</td>
+                                <td style="text-align: center;"><span class="badge">2,2%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Negoci i Clients</td>
+                                <td class="number">1.441</td>
+                                <td style="text-align: center;"><span class="badge">0,8%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Arxiu i Biblioteca</td>
+                                <td class="number">1.161</td>
+                                <td style="text-align: center;"><span class="badge">0,6%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Gabinet Numismàtic</td>
+                                <td class="number">609</td>
+                                <td style="text-align: center;"><span class="badge">0,3%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Comunicació</td>
+                                <td class="number">221</td>
+                                <td style="text-align: center;"><span class="badge">0,1%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Accessibilitat</td>
+                                <td class="number">91</td>
+                                <td style="text-align: center;"><span class="badge">0,05%</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Distribució de Segments per Nombre de Contactes</h3>
+                <div class="chart-canvas">
+                    <canvas id="segmentsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comunicacions Email Tab -->
+        <div id="comunicacions" class="tab-content">
+            <div class="grid grid-4">
+                <div class="metric-card purple">
+                    <div class="metric-info">
+                        <h3>Campanyes Totals</h3>
+                        <div class="value">389</div>
+                        <div class="change">2022-2025</div>
+                    </div>
+                    <div class="metric-icon">📧</div>
+                </div>
+                <div class="metric-card green">
+                    <div class="metric-info">
+                        <h3>Emails Enviats</h3>
+                        <div class="value">2,2M</div>
+                        <div class="change">Total període</div>
+                    </div>
+                    <div class="metric-icon">📤</div>
+                </div>
+                <div class="metric-card blue">
+                    <div class="metric-info">
+                        <h3>Taxa Obertura 2025</h3>
+                        <div class="value">44,1%</div>
+                        <div class="change">Millor any històric</div>
+                    </div>
+                    <div class="metric-icon">📊</div>
+                </div>
+                <div class="metric-card yellow">
+                    <div class="metric-info">
+                        <h3>Taxa Clics 2025</h3>
+                        <div class="value">3,2%</div>
+                        <div class="change">Millor any històric</div>
+                    </div>
+                    <div class="metric-icon">🖱️</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Performance Actual per Tipus de Comunicació (2025)</h3>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tipus de Comunicació</th>
+                                <th style="text-align: center;">Contactes Actius</th>
+                                <th style="text-align: center;">Taxa Obertura</th>
+                                <th style="text-align: center;">Taxa Clics</th>
+                                <th style="text-align: center;">Performance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="name">Butlletí Anglès</td>
+                                <td class="number">4.182</td>
+                                <td style="text-align: center;">43,2%</td>
+                                <td style="text-align: center;">8,2%</td>
+                                <td style="text-align: center;"><span class="badge">Outstanding</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Butlletí Català</td>
+                                <td class="number">18.096</td>
+                                <td style="text-align: center;">40,5%</td>
+                                <td style="text-align: center;">2,9%</td>
+                                <td style="text-align: center;"><span class="badge">Excel·lent</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Cap de Setmana (CDS)</td>
+                                <td class="number">17.526</td>
+                                <td style="text-align: center;">39,9%</td>
+                                <td style="text-align: center;">3,1%</td>
+                                <td style="text-align: center;"><span class="badge">Excel·lent</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Campanyes Temàtiques</td>
+                                <td class="number">15.000+</td>
+                                <td style="text-align: center;">37,3%</td>
+                                <td style="text-align: center;">1,9%</td>
+                                <td style="text-align: center;"><span class="badge">Bona</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Butlletí Castellà</td>
+                                <td class="number">3.702</td>
+                                <td style="text-align: center;">36,5%</td>
+                                <td style="text-align: center;">2,9%</td>
+                                <td style="text-align: center;"><span class="badge">Molt bona</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Invitacions Protocol</td>
+                                <td class="number">2.663</td>
+                                <td style="text-align: center;">31,9%</td>
+                                <td style="text-align: center;">4,0%</td>
+                                <td style="text-align: center;"><span class="badge">Bona</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            
+
+            
+
+            <div class="grid grid-2">
+			<div class="chart-container">
+                    <h3 class="chart-title">Evolució Taxa d'Obertura (2022-2025)</h3>
+                    <div class="chart-canvas">
+                        <canvas id="evolucioAperturaChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">Evolució Taxa de Clics (2022-2025)</h3>
+                    <div class="chart-canvas">
+                        <canvas id="evolucioClicsChart"></canvas>
+                    </div>
+                </div>
+                
+            </div>
+			<div class="chart-container">
+                <h3 class="chart-title">Volum d'Emails Enviats per Any</h3>
+                <div class="chart-canvas">
+                    <canvas id="evolucioVolumChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Insights de Comunicació Email</h3>
+                <div class="engagement-cards">
+                    <div class="engagement-card green">
+                        <div class="big-number">+40%</div>
+                        <div class="label">Millora obertura Butlletí CAT</div>
+                    </div>
+                    <div class="engagement-card blue">
+                        <div class="big-number">+29%</div>
+                        <div class="label">Millora obertura Butlletí ENG</div>
+                    </div>
+                    <div class="engagement-card purple">
+                        <div class="big-number">+42%</div>
+                        <div class="label">Millora clics Numismàtica</div>
+                    </div>
+                    <div class="engagement-card orange">
+                        <div class="big-number">8,2%</div>
+                        <div class="label">Taxa clics anglès (outstanding)</div>
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <p><strong>Anàlisi integral de comunicacions email:</strong> El butlletí en anglès mostra la millor performance actual amb 43,2% d'obertura i 8,2% de clics. L'evolució 2022-2025 revela millores consistents: Butlletí català +40%, anglès +29%, i numismàtica +42% en clics. El 2025 mostra una reducció del volum d'enviament (-20%) però mantenint o millorant les taxes d'engagement, indicant una estratègia més segmentada i efectiva que prioritza la qualitat sobre la quantitat.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enquestes Tab -->
+        <div id="enquestes" class="tab-content">
+            <div class="grid grid-4">
+                <div class="metric-card green">
+                    <div class="metric-info">
+                        <h3>Enquestes Generals</h3>
+                        <div class="value">3.540</div>
+                        <div class="change">Visitants regulars</div>
+                    </div>
+                    <div class="metric-icon">📋</div>
+                </div>
+                <div class="metric-card blue">
+                    <div class="metric-info">
+                        <h3>Enquestes Educatives</h3>
+                        <div class="value">24.046</div>
+                        <div class="change">Activitats docents</div>
+                    </div>
+                    <div class="metric-icon">🎓</div>
+                </div>
+                <div class="metric-card purple">
+                    <div class="metric-info">
+                        <h3>Taxa Resposta General</h3>
+                        <div class="value">12,8%</div>
+                        <div class="change">Visitants que responen</div>
+                    </div>
+                    <div class="metric-icon">📊</div>
+                </div>
+                <div class="metric-card yellow">
+                    <div class="metric-info">
+                        <h3>Taxa Resposta Educativa</h3>
+                        <div class="value">68,5%</div>
+                        <div class="change">Docents que responen</div>
+                    </div>
+                    <div class="metric-icon">📈</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Satisfacció per Tipus d'Activitat</h3>
+                <div class="chart-canvas">
+                    <canvas id="satisfaccioChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Recomanació d'Activitats</h3>
+                <div class="engagement-cards">
+                    <div class="engagement-card green">
+                        <div class="big-number">94%</div>
+                        <div class="label">Activitats educatives</div>
+                    </div>
+                    <div class="engagement-card blue">
+                        <div class="big-number">87%</div>
+                        <div class="label">Visita general</div>
+                    </div>
+                    <div class="engagement-card purple">
+                        <div class="big-number">89%</div>
+                        <div class="label">Tornarien al museu</div>
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <p><strong>Resultats destacats:</strong> Les activitats educatives obtenen una valoració excepcional amb 94% de recomanació i una taxa de resposta del 68,5% entre docents. L'accessibilitat del museu és molt ben valorada (8,5/10) i la tasca de les educadores obté puntuacions excel·lents (9,3/10).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evolució Email Tab -->
+        <div id="evolucio" class="tab-content">
+            <div class="grid grid-4">
+                <div class="metric-card purple">
+                    <div class="metric-info">
+                        <h3>Campanyes Totals</h3>
+                        <div class="value">389</div>
+                        <div class="change">2022-2025</div>
+                    </div>
+                    <div class="metric-icon">📧</div>
+                </div>
+                <div class="metric-card green">
+                    <div class="metric-info">
+                        <h3>Emails Enviats</h3>
+                        <div class="value">2,2M</div>
+                        <div class="change">Total període</div>
+                    </div>
+                    <div class="metric-icon">📤</div>
+                </div>
+                <div class="metric-card blue">
+                    <div class="metric-info">
+                        <h3>Taxa Obertura Mitjana</h3>
+                        <div class="value">44,1%</div>
+                        <div class="change">Promig 4 anys</div>
+                    </div>
+                    <div class="metric-icon">📊</div>
+                </div>
+                <div class="metric-card yellow">
+                    <div class="metric-info">
+                        <h3>Taxa Clics Mitjana</h3>
+                        <div class="value">3,2%</div>
+                        <div class="change">Promig 4 anys</div>
+                    </div>
+                    <div class="metric-icon">🖱️</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Evolució Taxa d'Obertura per Tipus de Comunicació (2022-2025)</h3>
+                <div class="chart-canvas">
+                    <canvas id="evolucioAperturaChart"></canvas>
+                </div>
+            </div>
+
+            <div class="grid grid-2">
+                <div class="chart-container">
+                    <h3 class="chart-title">Evolució Taxa de Clics (2022-2025)</h3>
+                    <div class="chart-canvas">
+                        <canvas id="evolucioClicsChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">Volum d'Emails Enviats per Any</h3>
+                    <div class="chart-canvas">
+                        <canvas id="evolucioVolumChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Insights d'Evolució Temporal</h3>
+                <div class="engagement-cards">
+                    <div class="engagement-card green">
+                        <div class="big-number">+40%</div>
+                        <div class="label">Millora obertura Butlletí CAT</div>
+                    </div>
+                    <div class="engagement-card blue">
+                        <div class="big-number">+29%</div>
+                        <div class="label">Millora obertura Butlletí ENG</div>
+                    </div>
+                    <div class="engagement-card purple">
+                        <div class="big-number">+42%</div>
+                        <div class="label">Millora clics Numismàtica</div>
+                    </div>
+                    <div class="engagement-card orange">
+                        <div class="big-number">-20%</div>
+                        <div class="label">Reducció volum 2025</div>
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <p><strong>Anàlisi d'evolució 2022-2025:</strong> S'observa una millora consistent en les taxes d'obertura de tots els butlletins, especialment el català (+40%) i l'anglès (+29%). La numismàtica destaca amb una millora del +42% en clics. El 2025 mostra una reducció del volum d'enviament però mantenint o millorant les taxes d'engagement, indicant una estratègia més segmentada i efectiva.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globals
+        let charts = {};
+
+        // Dades actualitzades amb les noves xifres
+        const data = {
+            actives: [61920, 123359],
+            languages: [74607, 48169, 27681, 1814],
+            fastPass: [
+                { mes: 'Gen', reserves: 1820, persones: 3842 },
+                { mes: 'Feb', reserves: 2150, persones: 4515 },
+                { mes: 'Mar', reserves: 6025, persones: 12739 },
+                { mes: 'Abr', reserves: 2774, persones: 5948 },
+                { mes: 'Mai', reserves: 4216, persones: 8749 },
+                { mes: 'Jun', reserves: 3163, persones: 6564 },
+                { mes: 'Jul', reserves: 2676, persones: 6053 },
+                { mes: 'Ago', reserves: 3115, persones: 6833 },
+                { mes: 'Set', reserves: 1625, persones: 3364 },
+                { mes: 'Oct', reserves: 180, persones: 378 },
+                { mes: 'Nov', reserves: 86, persones: 189 },
+                { mes: 'Des', reserves: 20, persones: 38 }
+            ],
+            groupSizes: [40.8, 35.0, 17.5, 6.7],
+            segments: [120219, 10311, 4112, 1441, 1161, 609, 221, 91],
+            segmentsLabels: ['Públic', 'Educació', 'Protocol', 'Negoci', 'Arxiu', 'Numismàtic', 'Comunicació', 'Accessibilitat'],
+            comunicacio: [43.2, 40.5, 39.9, 37.3, 36.5, 31.9],
+            comunicacioLabels: ['But. Anglès', 'But. Català', 'CDS', 'Campanyes', 'But. Castellà', 'Invitacions'],
+            satisfaccio: [8.4, 9.1],
+            evolucio: {
+                labels: ['2022', '2023', '2024', '2025'],
+                apertura: {
+                    'CDS': [42.1, 44.8, 45.2, 43.8],
+                    'Butlletí CAT': [35.2, 41.3, 48.5, 49.2],
+                    'Butlletí CAST': [38.5, 40.1, 43.2, 44.8],
+                    'Butlletí ENG': [32.8, 36.4, 40.1, 42.3],
+                    'Numismàtica': [41.2, 43.8, 46.2, 47.1],
+                    'Famílies': [43.1, 45.8, 48.2, 49.5],
+                    'Educatiu': [40.5, 42.8, 46.1, 47.8]
+                },
+                clics: {
+                    'CDS': [1.8, 2.2, 2.6, 2.8],
+                    'Butlletí CAT': [2.1, 2.8, 3.2, 3.5],
+                    'Butlletí CAST': [2.3, 2.6, 2.9, 3.1],
+                    'Butlletí ENG': [1.5, 1.8, 2.1, 2.4],
+                    'Numismàtica': [7.2, 8.5, 9.1, 10.2],
+                    'Famílies': [2.8, 3.2, 3.6, 4.1],
+                    'Educatiu': [3.5, 4.1, 4.6, 5.2]
+                },
+                volum: {
+                    'CDS': [420, 485, 512, 408],
+                    'Butlletí CAT': [145, 168, 152, 57],
+                    'Butlletí CAST': [32, 38, 35, 20],
+                    'Butlletí ENG': [28, 31, 27, 12],
+                    'Numismàtica': [1.8, 2.1, 2.2, 1.1],
+                    'Famílies': [8.5, 9.2, 7.8, 3.5],
+                    'Educatiu': [22, 28, 21, 8]
+                },
+                colors: {
+                    'CDS': 'rgba(54, 162, 235, 1)',
+                    'Butlletí CAT': 'rgba(255, 99, 132, 1)',
+                    'Butlletí CAST': 'rgba(255, 206, 86, 1)',
+                    'Butlletí ENG': 'rgba(75, 192, 192, 1)',
+                    'Numismàtica': 'rgba(153, 102, 255, 1)',
+                    'Famílies': 'rgba(255, 159, 64, 1)',
+                    'Educatiu': 'rgba(199, 199, 199, 1)'
+                }
+            }
+        };
+
+        // Funcions de navegació
+        function initTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const target = this.dataset.tab;
+                    
+                    // Eliminar classes actives
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Afegir classe activa
+                    this.classList.add('active');
+                    document.getElementById(target).classList.add('active');
+                    
+                    // Inicialitzar gràfics
+                    setTimeout(() => initCharts(target), 100);
+                });
+            });
+        }
+
+        // Funcions de gràfics
+        function initCharts(activeTab) {
+            switch(activeTab) {
+                case 'overview':
+                    initActivesChart();
+                    initLanguageChart();
+                    break;
+                case 'fastpass':
+                    initFastPassChart();
+                    initGroupSizeChart();
+                    break;
+                case 'segments':
+                    initSegmentsChart();
+                    break;
+                case 'comunicacions':
+                    initComunicacioChart();
+                    initEvolucioAperturaChart();
+                    initEvolucioClicsChart();
+                    initEvolucioVolumChart();
+                    break;
+                case 'enquestes':
+                    initSatisfaccioChart();
+                    break;
+            }
+        }
+
+        function initActivesChart() {
+            const ctx = document.getElementById('activesChart');
+            if (!ctx) return;
+            
+            if (charts.actives) charts.actives.destroy();
+            
+            charts.actives = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Contactes Actius', 'Contactes Inactius'],
+                    datasets: [{
+                        data: data.actives,
+                        backgroundColor: ['#10b981', '#f59e0b'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function initLanguageChart() {
+            const ctx = document.getElementById('languageChart');
+            if (!ctx) return;
+            
+            if (charts.language) charts.language.destroy();
+            
+            charts.language = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Català', 'Anglès', 'Castellà', 'Altres'],
+                    datasets: [{
+                        data: data.languages,
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function initFastPassChart() {
+            const ctx = document.getElementById('fastPassChart');
+            if (!ctx) return;
+            
+            if (charts.fastPass) charts.fastPass.destroy();
+            
+            charts.fastPass = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.fastPass.map(d => d.mes),
+                    datasets: [{
+                        label: 'Reserves',
+                        data: data.fastPass.map(d => d.reserves),
+                        backgroundColor: '#8b5cf6'
+                    }, {
+                        label: 'Persones',
+                        data: data.fastPass.map(d => d.persones),
+                        backgroundColor: '#10b981'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        function initGroupSizeChart() {
+            const ctx = document.getElementById('groupSizeChart');
+            if (!ctx) return;
+            
+            if (charts.groupSize) charts.groupSize.destroy();
+            
+            charts.groupSize = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Parelles (2)', 'Individuals (1)', 'Grups petits (3-4)', 'Grups grans (5+)'],
+                    datasets: [{
+                        data: data.groupSizes,
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function initSegmentsChart() {
+            const ctx = document.getElementById('segmentsChart');
+            if (!ctx) return;
+            
+            if (charts.segments) charts.segments.destroy();
+            
+            charts.segments = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.segmentsLabels,
+                    datasets: [{
+                        label: 'Nombre de Contactes',
+                        data: data.segments,
+                        backgroundColor: [
+                            '#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#06b6d4', '#f97316', '#84cc16', '#ec4899'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initComunicacioChart() {
+            const ctx = document.getElementById('comunicacioChart');
+            if (!ctx) return;
+            
+            if (charts.comunicacio) charts.comunicacio.destroy();
+            
+            charts.comunicacio = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.comunicacioLabels,
+                    datasets: [{
+                        label: 'Taxa Obertura (%)',
+                        data: data.comunicacio,
+                        backgroundColor: [
+                            '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#ef4444', '#06b6d4'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            max: 50,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initSatisfaccioChart() {
+            const ctx = document.getElementById('satisfaccioChart');
+            if (!ctx) return;
+            
+            if (charts.satisfaccio) charts.satisfaccio.destroy();
+            
+            charts.satisfaccio = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Visitants Generals', 'Activitats Educatives'],
+                    datasets: [{
+                        label: 'Satisfacció (sobre 10)',
+                        data: data.satisfaccio,
+                        backgroundColor: ['#3b82f6', '#10b981']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+        }
+
+        function initEvolucioAperturaChart() {
+            const ctx = document.getElementById('evolucioAperturaChart');
+            if (!ctx) return;
+            
+            if (charts.evolucioApertura) charts.evolucioApertura.destroy();
+            
+            const datasets = Object.keys(data.evolucio.apertura).map(tipus => ({
+                label: tipus,
+                data: data.evolucio.apertura[tipus],
+                borderColor: data.evolucio.colors[tipus],
+                backgroundColor: data.evolucio.colors[tipus] + '20',
+                borderWidth: 3,
+                tension: 0.4,
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                fill: false
+            }));
+
+            charts.evolucioApertura = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.evolucio.labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 15,
+                                font: { size: 11, weight: 'bold' }
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 30,
+                            max: 55,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                font: { size: 11 }
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { size: 11, weight: 'bold' }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        function initEvolucioClicsChart() {
+            const ctx = document.getElementById('evolucioClicsChart');
+            if (!ctx) return;
+            
+            if (charts.evolucioClics) charts.evolucioClics.destroy();
+            
+            const datasets = Object.keys(data.evolucio.clics).map(tipus => ({
+                label: tipus,
+                data: data.evolucio.clics[tipus],
+                borderColor: data.evolucio.colors[tipus],
+                backgroundColor: data.evolucio.colors[tipus] + '20',
+                borderWidth: 3,
+                tension: 0.4,
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                fill: false
+            }));
+
+            charts.evolucioClics = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.evolucio.labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 15,
+                                font: { size: 11, weight: 'bold' }
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 12,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                font: { size: 11 }
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { size: 11, weight: 'bold' }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        function initEvolucioVolumChart() {
+            const ctx = document.getElementById('evolucioVolumChart');
+            if (!ctx) return;
+            
+            if (charts.evolucioVolum) charts.evolucioVolum.destroy();
+            
+            const datasets = Object.keys(data.evolucio.volum).map(tipus => ({
+                label: tipus,
+                data: data.evolucio.volum[tipus],
+                backgroundColor: data.evolucio.colors[tipus] + 'CC',
+                borderColor: data.evolucio.colors[tipus],
+                borderWidth: 2,
+                borderRadius: 4,
+                borderSkipped: false
+            }));
+
+            charts.evolucioVolum = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.evolucio.labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 15,
+                                font: { size: 11, weight: 'bold' }
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y.toLocaleString() + 'K emails';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + 'K';
+                                },
+                                font: { size: 11 }
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { size: 11, weight: 'bold' }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        // Inicialització
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Dashboard MNAC carregat correctament');
+            initTabs();
+            initCharts('overview');
+        });
+    </script>
+</body>
+</html>
