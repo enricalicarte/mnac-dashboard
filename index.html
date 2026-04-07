@@ -130,6 +130,7 @@
         .metric-card.blue { border-left-color: #3b82f6; }
         .metric-card.green { border-left-color: #10b981; }
         .metric-card.yellow { border-left-color: #f59e0b; }
+        .metric-card.gray { border-left-color: #6b7280; }
         .metric-card.red { border-left-color: #ef4444; }
         .metric-card.purple { border-left-color: #8b5cf6; }
 
@@ -279,17 +280,17 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Dashboard</h1>
-            <p>Plataforma de comunicacions digitals</p>
+            <h1>Resum Activitat CRM</h1>
+            <p>Plataforma Active Campaign</p>
             <div class="info-badge">
-                Active Campaign a data 06/02/2026
+                Abril 22- Febrer  26
             </div>
         </div>
 
         <div class="tabs-container">
             <div class="tabs">
                 <button class="tab-btn active" data-tab="overview">Contactes</button>
-				<button class="tab-btn" data-tab="segments">Segments</button>    
+				<button class="tab-btn" data-tab="segments">Etiquetes</button>    
                 <button class="tab-btn" data-tab="comunicacions">Comunicacions Email</button>
                 <button class="tab-btn" data-tab="enquestes">Avaluacions Act.Generals</button>
 				<button class="tab-btn" data-tab="educatives">Avaluació Act. Educatives</button>
@@ -302,66 +303,181 @@
             <div class="grid grid-4">
                 <div class="metric-card blue">
                     <div class="metric-info">
-                        <h3>Total contactes amb e-mail</h3>
-                        <div class="value">134.232</div>
-                        <div class="change">Contactes totals</div>
+                        <h3>Total contactes únics</h3>
+                        <div class="value">225.628</div>
+                        <div class="change"></div>
                     </div>
                     <div class="metric-icon">👥</div>
                 </div>
                 <div class="metric-card green">
                     <div class="metric-info">
-                        <h3>Contactes Actius</h3>
-                        <div class="value">54.520</div>
-                        <div class="change">40,6% del total</div>
+                        <h3>Subscrits en Llistes</h3>
+                        <div class="value">72.689</div>
+                        <div class="change">64,2% dels contactes en llistes</div>
                     </div>
                     <div class="metric-icon">✅</div>
                 </div>
-                <div class="metric-card red">
+                <div class="metric-card orange">
                     <div class="metric-info">
-                        <h3>Contactes Inactius</h3>
-                        <div class="value">79.712</div>
-                        <div class="change">59,4% potencial millora</div>
+                        <h3>Baixa de Llistes</h3>
+                        <div class="value">40.570</div>
+                        <div class="change">35,8% dels contactes en llistes</div>
                     </div>
-                    <div class="metric-icon">⚡</div>
+                    <div class="metric-icon">📤</div>
+                </div>
+                <div class="metric-card gray">
+                    <div class="metric-info">
+                        <h3>Mai en cap Llista</h3>
+                        <div class="value">112.369</div>
+                        <div class="change">49,8% del total (majoritàriament ticketing)</div>
+                    </div>
+                    <div class="metric-icon">🎫</div>
                 </div>
             </div>
 
-            <div class="grid grid-2">
-                <div class="chart-container">
-                    <h3 class="chart-title">Distribució de Contactes Actius</h3>
-                    <div class="chart-canvas">
-                        <canvas id="activesChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-container">
-                    <h3 class="chart-title">Distribució per Idiomes</h3>
-                    <div class="chart-canvas">
-                        <canvas id="languageChart"></canvas>
-                    </div>
-                </div>
-            </div>
+            
+			
 
             <div class="chart-container">
-                <h3 class="chart-title">Contactes subscrits a comunicacions</h3>
-                <div class="engagement-cards">
-                    <div class="engagement-card green">
-                        <div class="big-number">29.473</div>
-                        <div class="label">Total Butlletins</div>
-                    </div>
-                    <div class="engagement-card blue">
-                        <div class="big-number">18.945</div>
-                        <div class="label">Cap de Setmana</div>
-                    </div>
-                    <div class="engagement-card purple">
-                        <div class="big-number">9.384</div>
-                        <div class="label">Programes Educatius</div>
-                    </div>
-                    <div class="engagement-card orange">
-                        <div class="big-number">3.754</div>
-                        <div class="label">Protocol</div>
+                <h3 class="chart-title">Resum de Llistes</h3>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Llista</th>
+                                <th style="text-align: center;">Total</th>
+                                <th style="text-align: center;">Subscrits</th>
+                                <th style="text-align: center;">Baixa / Neteja</th>
+                                <th style="text-align: center;">% Subscrits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #eff6ff;">
+                                <td class="name">📧 <strong>Butlletí (Newsletter)</strong></td>
+                                <td class="number"><strong>45.909</strong></td>
+                                <td class="number" style="color: #10b981;"><strong>30.293</strong></td>
+                                <td class="number" style="color: #ef4444;">15.616</td>
+                                <td style="text-align: center;"><span class="badge excellent">66,0%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name" style="padding-left: 2rem;">↳ Català (CAT)</td>
+                                <td class="number">28.511</td>
+                                <td class="number" style="color: #10b981;">17.526</td>
+                                <td class="number" style="color: #ef4444;">10.985</td>
+                                <td style="text-align: center;"><span class="badge">61,5%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name" style="padding-left: 2rem;">↳ Anglès (ENG)</td>
+                                <td class="number">9.984</td>
+                                <td class="number" style="color: #10b981;">7.380</td>
+                                <td class="number" style="color: #ef4444;">2.604</td>
+                                <td style="text-align: center;"><span class="badge excellent">73,9%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name" style="padding-left: 2rem;">↳ Castellà (ESP)</td>
+                                <td class="number">6.707</td>
+                                <td class="number" style="color: #10b981;">4.737</td>
+                                <td class="number" style="color: #ef4444;">1.970</td>
+                                <td style="text-align: center;"><span class="badge excellent">70,6%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">📅 CDS (Cap de Setmana)</td>
+                                <td class="number">36.664</td>
+                                <td class="number" style="color: #10b981;">18.974</td>
+                                <td class="number" style="color: #ef4444;">17.690</td>
+                                <td style="text-align: center;"><span class="badge">51,8%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">🎓 Educació</td>
+                                <td class="number">13.772</td>
+                                <td class="number" style="color: #10b981;">9.385</td>
+                                <td class="number" style="color: #ef4444;">4.387</td>
+                                <td style="text-align: center;"><span class="badge excellent">68,1%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">📋 Campanyes Comunicació</td>
+                                <td class="number">4.823</td>
+                                <td class="number" style="color: #10b981;">4.552</td>
+                                <td class="number" style="color: #ef4444;">271</td>
+                                <td style="text-align: center;"><span class="badge excellent">94,4%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">🏛️ Protocol</td>
+                                <td class="number">4.419</td>
+                                <td class="number" style="color: #10b981;">3.745</td>
+                                <td class="number" style="color: #ef4444;">674</td>
+                                <td style="text-align: center;"><span class="badge excellent">84,7%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">👨‍👩‍👧 Famílies</td>
+                                <td class="number">3.553</td>
+                                <td class="number" style="color: #10b981;">2.264</td>
+                                <td class="number" style="color: #ef4444;">1.289</td>
+                                <td style="text-align: center;"><span class="badge excellent">63,7%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">✉️ Invitacions (no protocol)</td>
+                                <td class="number">1.700</td>
+                                <td class="number" style="color: #10b981;">1.528</td>
+                                <td class="number" style="color: #ef4444;">172</td>
+                                <td style="text-align: center;"><span class="badge excellent">89,9%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">📚 Arxiu i Biblioteca</td>
+                                <td class="number">1.285</td>
+                                <td class="number" style="color: #10b981;">1.111</td>
+                                <td class="number" style="color: #ef4444;">174</td>
+                                <td style="text-align: center;"><span class="badge excellent">86,5%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">🪙 Numismàtica</td>
+                                <td class="number">1.021</td>
+                                <td class="number" style="color: #10b981;">724</td>
+                                <td class="number" style="color: #ef4444;">297</td>
+                                <td style="text-align: center;"><span class="badge excellent">70,9%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">👤 Personal MNAC</td>
+                                <td class="number">113</td>
+                                <td class="number" style="color: #10b981;">113</td>
+                                <td class="number" style="color: #ef4444;">0</td>
+                                <td style="text-align: center;"><span class="badge excellent">100%</span></td>
+                            </tr>
+                        </tbody>
+                        <tfoot style="background: #f3f4f6;">
+                            <tr>
+                                <td class="name"><strong>TOTAL LLISTES</strong></td>
+                                <td class="number"><strong>113.259</strong></td>
+                                <td class="number" style="color: #10b981;"><strong>72.689</strong></td>
+                                <td class="number" style="color: #ef4444;"><strong>40.570</strong></td>
+                                <td style="text-align: center;"><strong>64,2%</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="insight-box">
+                    <p><strong>Anàlisi:</strong> El <span class="highlight-stat">Butlletí</span> és la llista principal amb 45.909 subscriptors (30.293 subscrits). La newsletter en anglès té la millor taxa de subscripció (73,9%). De 225.628 contactes totals, <span class="highlight-stat">113.259</span> estan en alguna llista i <span class="highlight-stat">72.689 (64,2%)</span> estan subscrits.</p>
+                </div>
+				
+
+            </div>
+							<div class="grid grid-2">
+                <div class="chart-container">
+                    <h3 class="chart-title">Distribució per Origen de Captació</h3>
+                    <div class="chart-canvas">
+                        <canvas id="origenChart"></canvas>
                     </div>
                 </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">Distribució Butlletí per Idioma</h3>
+                    <div class="chart-canvas">
+                        <canvas id="idiomaChart"></canvas>
+                    </div>
+                   
+                </div>
             </div>
+
+            
         </div>
 
         <!-- Activitats Educatives Tab -->
@@ -587,14 +703,7 @@
                     </div>
                     <div class="metric-icon">🎯</div>
                 </div>
-                <div class="metric-card blue">
-                    <div class="metric-info">
-                        <h3>Taxa Conversió</h3>
-                        <div class="value">13,0%</div>
-                        <div class="change">Vs visites totals</div>
-                    </div>
-                    <div class="metric-icon">📊</div>
-                </div>
+                
             </div>
 
             <div class="chart-container">
@@ -624,11 +733,11 @@
                         </div>
                         <div class="engagement-card purple">
                             <div class="big-number">19,2%</div>
-                            <div class="label">Grups petits</div>
+                            <div class="label">Grups petits (3-4)</div>
                         </div>
                         <div class="engagement-card orange">
                             <div class="big-number">4,6%</div>
-                            <div class="label">Grups grans</div>
+                            <div class="label">Grups grans (4-9)</div>
                         </div>
                     </div>
                 </div>
@@ -637,110 +746,291 @@
 
         <!-- Segments Tab -->
         <div id="segments" class="tab-content">
-            <div class="grid grid-4">
-                <div class="metric-card purple">
-                    <div class="metric-info">
-                        <h3>Públic General</h3>
-                        <div class="value">120.219</div>
-                        <div class="change">87% taxa activació</div>
-                    </div>
-                    <div class="metric-icon">🎯</div>
+          
+			<div class="chart-container">
+                <h3 class="chart-title">Etiquetes de Segmentació Específiques (Base total 225.628)</h3>
+                
+                <!-- EDUCACIÓ -->
+                <h4 style="margin: 1.5rem 0 0.5rem; color: #1e40af; border-bottom: 2px solid #1e40af; padding-bottom: 0.3rem;">🎓 EDUCACIÓ</h4>
+                
+                <div class="insight-box" style="background: #eff6ff; margin-bottom: 1rem;">
+                    <p><strong>ℹ️ Nota:</strong> Les escoles i centres educatius poden tenir <strong>múltiples etiquetes</strong> segons el nivell educatiu que ofereixen (p.ex. un centre pot tenir S2-EINF2C, S2-EPRI i S2-ESO alhora). Els números no són excloents entre categories.</p>
                 </div>
-                <div class="metric-card blue">
-                    <div class="metric-info">
-                        <h3>Programes Educatius</h3>
-                        <div class="value">9.384</div>
-                        <div class="change">76% taxa activació</div>
-                    </div>
-                    <div class="metric-icon">🎓</div>
-                </div>
-                <div class="metric-card green">
-                    <div class="metric-info">
-                        <h3>Direcció i Protocol</h3>
-                        <div class="value">3.754</div>
-                        <div class="change">78% taxa activació</div>
-                    </div>
-                    <div class="metric-icon">📋</div>
-                </div>
-                <div class="metric-card yellow">
-                    <div class="metric-info">
-                        <h3>Gabinet Numismàtic</h3>
-                        <div class="value">721</div>
-                        <div class="change">75% taxa activació</div>
-                    </div>
-                    <div class="metric-icon">🪙</div>
-                </div>
-            </div>
-
-            <div class="chart-container">
-                <h3 class="chart-title">Altres llistes o etiquetes de cerca més habituals</h3>
+                
+                <!-- Professorat -->
+                <h5 style="margin: 1rem 0 0.3rem; color: #374151; font-size: 0.9rem;">👨‍🏫 Professorat i Segment Educació</h5>
                 <div class="table-container">
                     <table class="data-table">
-                        <thead>
+                        <tbody>
+                           
                             <tr>
-                                <th>Llistes</th>
-                                <th style="text-align: center;">Total Contactes</th>
+                                <td class="name">S-Educació</td>
+                                <td class="number">6.266</td>
+                                <td>Segment entitats educació</td>
                             </tr>
-                        </thead>
+                            <tr>
+                                <td class="name">Visitants_Escoles</td>
+                                <td class="number">4.124</td>
+                                <td>Escoles que han visitat el museu</td>
+                            </tr>
+							<tr>
+                                <td class="name">S1-AMPA</td>
+                                <td class="number">236</td>
+                                <td>Assosiació de Families de escoles</td>
+                            </tr>
+							
+                           
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Educació Reglada -->
+                <h5 style="margin: 1rem 0 0.3rem; color: #374151; font-size: 0.9rem;">📚 Educació Reglada (per nivell educatiu del centre)</h5>
+                <div class="table-container">
+                    <table class="data-table">
+                        <tbody>
+						  <tr>
+                                <td class="name">S2-EINF1C</td>
+                                <td class="number">1.840</td>
+                                <td>Educació Infantil 1r cicle</td>
+                            </tr>
+                            <tr>
+                                <td class="name">S2-EINF2C</td>
+                                <td class="number">2.251</td>
+                                <td>Educació Infantil 2n cicle</td>
+                            </tr>
+							 
+                            <tr>
+                                <td class="name">S2-EPRI</td>
+                                <td class="number">1.503</td>
+                                <td>Educació Primària</td>
+                            </tr>
+                            <tr>
+                                <td class="name">S2-ESO</td>
+                                <td class="number">1.144</td>
+                                <td>Educació Secundària Obligatòria</td>
+                            </tr>
+                          
+                            <tr>
+                                <td class="name">S2-BATX</td>
+                                <td class="number">746</td>
+                                <td>Batxillerat</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Formació Professional -->
+                <h5 style="margin: 1rem 0 0.3rem; color: #374151; font-size: 0.9rem;">🛠️ Formació Professional</h5>
+                <div class="table-container">
+                    <table class="data-table">
                         <tbody>
                             <tr>
-                                <td class="name">Suscriptors Butlletí</td>
-                                <td class="number">29.473</td>
+                                <td class="name">S2-CFPM</td>
+                                <td class="number">445</td>
+                                <td>Cicles FP Grau Mitjà</td>
                             </tr>
                             <tr>
-                                <td class="name">Suscriptors CDS</td>
-                                <td class="number">18.945</td>
+                                <td class="name">S2-CFPS</td>
+                                <td class="number">347</td>
+                                <td>Cicles FP Grau Superior</td>
                             </tr>
                             <tr>
-                                <td class="name">Educació</td>
-                                <td class="number">9.384</td>
+                                <td class="name">S2-AA01</td>
+                                <td class="number">240</td>
+                                <td>Cursos accés grau mitjà</td>
                             </tr>
                             <tr>
-                                <td class="name">Protocol</td>
-                                <td class="number">3.754</td>
-                            </tr>
-							<tr>
-                                <td class="name">Famílies</td>
-                                <td class="number">2.261</td>
+                                <td class="name">S2-AA03</td>
+                                <td class="number">149</td>
+                                <td>Cursos accés grau superior</td>
                             </tr>
                             <tr>
-                                <td class="name">Arxiu i Biblioteca</td>
-                                <td class="number">1.111</td>
-                            </tr>
-                            <tr>
-                                <td class="name">Gabinet Numismàtic</td>
-                                <td class="number">721</td>
-                            </tr>
-							<thead>
-                            <tr>
-                                <th>Etiquetes</th>
-                                <th style="text-align: center;">Total Contactes</th>
-                            </tr>
-							</thead>
-							<tr>
-                                <td class="name">Escoles ESO</td>
-                                <td class="number">1.029</td>
-                            </tr>
-							<tr>
-                                <td class="name">Artistes</td>
-                                <td class="number">1.024</td>
-                            </tr>
-							<tr>
-                                <td class="name">Arts_and_Health</td>
-                                <td class="number">859</td>
-                            </tr>
-							<tr>
-                                <td class="name">Fotografia</td>
-                                <td class="number">365</td>
-                            </tr>
-                            <tr>
-                                <td class="name">Accessibilitat</td>
-                                <td class="number">159</td>
+                                <td class="name">S2-PFI</td>
+                                <td class="number">128</td>
+                                <td>Programa Formació i Inserció</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+
+
+                <!-- TEMÀTIQUES ART -->
+                <h4 style="margin: 1.5rem 0 0.5rem; color: #7c3aed; border-bottom: 2px solid #7c3aed; padding-bottom: 0.3rem;">🎨 TEMÀTIQUES</h4>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Etiqueta</th>
+                                <th style="text-align: center;">Contactes</th>
+                                <th style="text-align: center;">Interès específic</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="name">⛪ Romànic_Gòtic</td>
+                                <td class="number">557</td>
+                                <td>Art romànic, Art gòtic</td>
+                            </tr>
+                            <tr>
+                                <td class="name">🪙 Numismàtica</td>
+                                <td class="number">656</td>
+                                <td>Gabinet Numismàtic de Catalunya</td>
+                            </tr>
+                         
+                            <tr>
+                                <td class="name">📷 Fotografia</td>
+                                <td class="number">364</td>
+                                <td>Col·lecció de fotografia</td>
+                            </tr>
+                         
+                            
+							
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- PÚBLICS ESPECÍFICS -->
+                <h4 style="margin: 1.5rem 0 0.5rem; color: #059669; border-bottom: 2px solid #059669; padding-bottom: 0.3rem;">👥 PÚBLICS ESPECÍFICS</h4>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Etiqueta</th>
+                                <th style="text-align: center;">Contactes</th>
+                                <th style="text-align: center;">Perfil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="name">💚 Arts_and_Health</td>
+                                <td class="number">1.885</td>
+                                <td>Programa d'art i salut, benestar</td>
+                            </tr>
+                            <tr>
+                                <td class="name">🔍 ArtDiscoveryGroup</td>
+                                <td class="number">1.472</td>
+                                <td>Grups de descoberta artística</td>
+                            </tr>
+                            <tr>
+                                <td class="name">🎨 Artistes</td>
+                                <td class="number">1.082</td>
+                                <td>Artistes plàstics i visuals</td>
+                            </tr>
+                            <tr>
+                                <td class="name">🌐 Comunitat360</td>
+                                <td class="number">179</td>
+                                <td>Programa comunitari 360</td>
+                            </tr>
+                            <tr>
+                                <td class="name">♿ Accessibilitat</td>
+                                <td class="number">160</td>
+                                <td>Públic amb necessitats especials</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- TARIFAS EUROMUS -->
+                <h4 style="margin: 1.5rem 0 0.5rem; color: #1e40af; border-bottom: 2px solid #1e40af; padding-bottom: 0.3rem;"> TARIFES EUROMUS</h4>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Etiqueta</th>
+                                <th style="text-align: center;">Contactes</th>
+                                <th style="text-align: center;">Àmbit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          
+                            <tr>
+                                <td class="name">TARIFA_Adults</td>
+                                <td class="number">1.482</td>
+                                <td>Usuaris ticketing Euromus</td>
+                            </tr>
+							 <tr>
+                                <td class="name">TARIFA_Amics</td>
+                                <td class="number">1.286</td>
+                                <td>Usuaris ticketing Euromus</td>
+                            </tr>
+							 <tr>
+                                <td class="name">TARIFA_Biblioteca</td>
+                                <td class="number">24</td>
+                                <td>Usuaris ticketing Euromus</td>
+                            </tr>
+							 <tr>
+                                <td class="name">TARIFA_Families</td>
+                                <td class="number">44</td>
+                                <td>Usuaris ticketing Euromus</td>
+                            </tr>
+							 <tr>
+                                <td class="name">TARIFA_Gratuites</td>
+                                <td class="number">85</td>
+                                <td>Usuaris ticketing Euromus</td>
+                            </tr>
+							 <tr>
+                                <td class="name">TARIFA_Joves</td>
+                                <td class="number">357</td>
+                                <td>Usuaris ticketing Euromus</td>
+                            </tr>
+							 <tr>
+                                <td class="name">TARIFA_Professors</td>
+                                <td class="number">2012</td>
+                                <td>Usuaris ticketing Euromus</td>
+                            </tr>
+							 <tr>
+                                <td class="name">TARIFA_Seniors</td>
+                                <td class="number">249</td>
+                                <td>Usuaris ticketing Euromus</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+				
+				 <!-- PROTOCOL -->
+                <h4 style="margin: 1.5rem 0 0.5rem; color: #b45309; border-bottom: 2px solid #b45309; padding-bottom: 0.3rem;">📜 PROTOCOL</h4>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Etiqueta</th>
+                                <th style="text-align: center;">Contactes</th>
+                                <th style="text-align: center;">Àmbit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td class="name">Patrocinadors</td>
+                                <td class="number">69</td>
+                                <td>Patrocinadors actualsl</td>
+                            </tr>
+                            <tr>
+                                <td class="name">Patronat</td>
+                                <td class="number">27</td>
+                                <td>Patronat actual</td>
+                            </tr>
+                            <tr>
+                                <td class="name">Prestadors</td>
+                                <td class="number">77</td>
+                                <td>Prestadors</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="insight-box" style="margin-top: 1.5rem;">
+                    <p><strong>Insight estratègic:</strong> Els segments més valuosos per a campanyes específiques són: <span class="highlight-stat">Professor (7.710)</span> per a programes educatius, <span class="highlight-stat">Arts_and_Health (1.885)</span> per a programes de benestar, <span class="highlight-stat">ArtDiscoveryGroup (1.472)</span> per a visites guiades, i <span class="highlight-stat">Romànic/Gòtic (1.272)</span> per a continguts sobre col·leccions medievals.</p>
+                </div>
             </div>
+
+           
+
+           
+
+           
         </div>
 
         <!-- Comunicacions Email Tab -->
@@ -749,15 +1039,15 @@
                 <div class="metric-card purple">
                     <div class="metric-info">
                         <h3>Campanyes Totals</h3>
-                        <div class="value">458</div>
-                        <div class="change">2022-2026</div>
+                        <div class="value">440</div>
+                        <div class="change">2022 - Feb 2026</div>
                     </div>
                     <div class="metric-icon">📧</div>
                 </div>
                 <div class="metric-card green">
                     <div class="metric-info">
                         <h3>Emails Enviats</h3>
-                        <div class="value">3,95M</div>
+                        <div class="value">3,81M</div>
                         <div class="change">Total període</div>
                     </div>
                     <div class="metric-icon">📤</div>
@@ -765,23 +1055,23 @@
                 <div class="metric-card blue">
                     <div class="metric-info">
                         <h3>Taxa Obertura Mitjana</h3>
-                        <div class="value">45,24%</div>
-                        <div class="change">Promig 2022-2026</div>
+                        <div class="value">44,41%</div>
+                        <div class="change">Promig ponderat 2022-2026</div>
                     </div>
                     <div class="metric-icon">📊</div>
                 </div>
                 <div class="metric-card yellow">
                     <div class="metric-info">
                         <h3>Taxa Clics Mitjana</h3>
-                        <div class="value">2,82%</div>
-                        <div class="change">Promig 2022-2026</div>
+                        <div class="value">2,74%</div>
+                        <div class="change">Promig ponderat 2022-2026</div>
                     </div>
                     <div class="metric-icon">🖱️</div>
                 </div>
             </div>
 
             <div class="chart-container">
-                <h3 class="chart-title">Performance per Tipus de Comunicació (2022-2026)</h3>
+                <h3 class="chart-title">Performance per Tipus de Comunicació (2022 - Feb 2026)</h3>
                 <div class="table-container">
                     <table class="data-table">
                         <thead>
@@ -797,109 +1087,104 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="name">CDS Cap de Setmana</td>
-                                <td class="number">123</td>
-                                <td class="number">1.919.745</td>
-                                <td style="text-align: center;">45,16%</td>
-                                <td style="text-align: center;">2,70%</td>
-                                <td style="text-align: center;">5,97%</td>
-                                <td style="text-align: center;"><span class="badge">Excel·lent</span></td>
-                            </tr>
-                            <tr>
-                                <td class="name">Campanyes Comunicació</td>
-                                <td class="number">230</td>
-                                <td class="number">1.412.192</td>
-                                <td style="text-align: center;">43,26%</td>
-                                <td style="text-align: center;">4,32%</td>
-                                <td style="text-align: center;">9,59%</td>
-                                <td style="text-align: center;"><span class="badge">Molt bona</span></td>
-                            </tr>
-                            <tr>
-                                <td class="name">Butlletí Català</td>
-                                <td class="number">24</td>
-                                <td class="number">294.534</td>
-                                <td style="text-align: center;">36,04%</td>
-                                <td style="text-align: center;">3,13%</td>
-                                <td style="text-align: center;">8,95%</td>
-                                <td style="text-align: center;"><span class="badge">Bona</span></td>
-                            </tr>
-                            <tr>
-                                <td class="name">Nadala</td>
-                                <td class="number">23</td>
-                                <td class="number">95.443</td>
-                                <td style="text-align: center;">41,44%</td>
-                                <td style="text-align: center;">4,44%</td>
-                                <td style="text-align: center;">10,90%</td>
+                                <td class="name">Invitació Digital</td>
+                                <td class="number">25</td>
+                                <td class="number">30.361</td>
+                                <td style="text-align: center;">49,43%</td>
+                                <td style="text-align: center;">5,23%</td>
+                                <td style="text-align: center;">10,66%</td>
                                 <td style="text-align: center;"><span class="badge">Outstanding</span></td>
                             </tr>
                             <tr>
                                 <td class="name">Butlletí Castellà</td>
-                                <td class="number">23</td>
-                                <td class="number">31.674</td>
-                                <td style="text-align: center;">36,03%</td>
-                                <td style="text-align: center;">3,24%</td>
-                                <td style="text-align: center;">9,61%</td>
-                                <td style="text-align: center;"><span class="badge">Bona</span></td>
+                                <td class="number">44</td>
+                                <td class="number">116.815</td>
+                                <td style="text-align: center;">48,05%</td>
+                                <td style="text-align: center;">2,62%</td>
+                                <td style="text-align: center;">5,49%</td>
+                                <td style="text-align: center;"><span class="badge">Excel·lent</span></td>
                             </tr>
                             <tr>
                                 <td class="name">Famílies</td>
-                                <td class="number">9</td>
-                                <td class="number">19.395</td>
-                                <td style="text-align: center;">51,79%</td>
-                                <td style="text-align: center;">2,45%</td>
-                                <td style="text-align: center;">4,79%</td>
+                                <td class="number">14</td>
+                                <td class="number">32.184</td>
+                                <td style="text-align: center;">47,80%</td>
+                                <td style="text-align: center;">2,64%</td>
+                                <td style="text-align: center;">5,54%</td>
                                 <td style="text-align: center;"><span class="badge">Excel·lent</span></td>
-                            </tr>
-                            <tr>
-                                <td class="name">Educació</td>
-                                <td class="number">2</td>
-                                <td class="number">16.852</td>
-                                <td style="text-align: center;">35,09%</td>
-                                <td style="text-align: center;">2,04%</td>
-                                <td style="text-align: center;">5,44%</td>
-                                <td style="text-align: center;"><span class="badge">Bona</span></td>
-                            </tr>
-                            <tr>
-                                <td class="name">Invitació Digital</td>
-                                <td class="number">9</td>
-                                <td class="number">15.526</td>
-                                <td style="text-align: center;">44,04%</td>
-                                <td style="text-align: center;">3,72%</td>
-                                <td style="text-align: center;">9,03%</td>
-                                <td style="text-align: center;"><span class="badge">Excel·lent</span></td>
-                            </tr>
-                            <tr>
-                                <td class="name">Butlletí Anglès</td>
-                                <td class="number">9</td>
-                                <td class="number">12.900</td>
-                                <td style="text-align: center;">23,96%</td>
-                                <td style="text-align: center;">1,77%</td>
-                                <td style="text-align: center;">7,96%</td>
-                                <td style="text-align: center;"><span class="badge">A millorar</span></td>
                             </tr>
                             <tr>
                                 <td class="name">Numismàtica</td>
-                                <td class="number">2</td>
-                                <td class="number">1.052</td>
-                                <td style="text-align: center;">41,50%</td>
-                                <td style="text-align: center;">12,48%</td>
-                                <td style="text-align: center;">26,50%</td>
+                                <td class="number">15</td>
+                                <td class="number">8.120</td>
+                                <td style="text-align: center;">46,33%</td>
+                                <td style="text-align: center;">11,15%</td>
+                                <td style="text-align: center;">24,02%</td>
                                 <td style="text-align: center;"><span class="badge">Excepcional</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">CDS Cap de Setmana</td>
+                                <td class="number">121</td>
+                                <td class="number">1.948.924</td>
+                                <td style="text-align: center;">46,04%</td>
+                                <td style="text-align: center;">2,49%</td>
+                                <td style="text-align: center;">5,39%</td>
+                                <td style="text-align: center;"><span class="badge">Molt bona</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Nadala</td>
+                                <td class="number">14</td>
+                                <td class="number">55.227</td>
+                                <td style="text-align: center;">44,32%</td>
+                                <td style="text-align: center;">4,29%</td>
+                                <td style="text-align: center;">9,94%</td>
+                                <td style="text-align: center;"><span class="badge">Molt bona</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Butlletí Català</td>
+                                <td class="number">44</td>
+                                <td class="number">670.968</td>
+                                <td style="text-align: center;">43,88%</td>
+                                <td style="text-align: center;">3,53%</td>
+                                <td style="text-align: center;">8,09%</td>
+                                <td style="text-align: center;"><span class="badge">Molt bona</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Educació</td>
+                                <td class="number">11</td>
+                                <td class="number">77.318</td>
+                                <td style="text-align: center;">43,79%</td>
+                                <td style="text-align: center;">3,97%</td>
+                                <td style="text-align: center;">9,07%</td>
+                                <td style="text-align: center;"><span class="badge">Molt bona</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Butlletí Anglès</td>
+                                <td class="number">28</td>
+                                <td class="number">105.806</td>
+                                <td style="text-align: center;">43,19%</td>
+                                <td style="text-align: center;">1,86%</td>
+                                <td style="text-align: center;">4,32%</td>
+                                <td style="text-align: center;"><span class="badge">Bona</span></td>
+                            </tr>
+                            <tr>
+                                <td class="name">Campanyes Comunicació</td>
+                                <td class="number">120</td>
+                                <td class="number">629.083</td>
+                                <td style="text-align: center;">39,04%</td>
+                                <td style="text-align: center;">2,31%</td>
+                                <td style="text-align: center;">6,02%</td>
+                                <td style="text-align: center;"><span class="badge">Bona</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="insight-box">
-                    <p><strong>Notes:</strong> CTOR (Click-to-Open Rate) mesura el % de persones que fan clic respecte les que obren l'email. Numismàtica destaca amb un CTOR excepcional del 26,50%, indicant una audiència altament especialitzada i compromesa. El butlletí en anglès presenta l'oportunitat de millora més clara amb només 1,77% de clics i 23,96% d'obertura. Les Campanyes de Comunicació representen el grup més nombrós (230 campanyes) amb un CTOR sòlid del 9,59%.</p>
+                    <p><strong>Notes:</strong> CTOR (Click-to-Open Rate) mesura el % de persones que fan clic respecte les que obren l'email. Numismàtica destaca amb un CTOR excepcional del 24,02%, indicant una audiència altament especialitzada i compromesa. El butlletí en anglès presenta l'oportunitat de millora més clara amb 1,86% de clics. Les Campanyes de Comunicació representen el grup més nombrós (120 campanyes) amb un CTOR sòlid del 6,02%. Dades acumulades 2022-feb 2026 (440 campanyes, 3,81M emails).</p>
                 </div>
             </div>
 
-			<div class="chart-container">
-                    <h3 class="chart-title">Volum d'Emails Enviats per Any</h3>
-                    <div class="chart-canvas">
-                        <canvas id="evolucioVolumChart"></canvas>
-                    </div>
-                </div>
+			
 
             <div class="grid grid-2">
 			<div class="chart-container">
@@ -916,30 +1201,7 @@
                 </div>
             </div>
 
-            <div class="chart-container">
-                <h3 class="chart-title">Insights de Comunicació Email</h3>
-                <div class="engagement-cards">
-                    <div class="engagement-card green">
-                        <div class="big-number">+74%</div>
-                        <div class="label">Creixement obertura 2022-2024</div>
-                    </div>
-                    <div class="engagement-card blue">
-                        <div class="big-number">26,50%</div>
-                        <div class="label">CTOR Numismàtica (excepcional)</div>
-                    </div>
-                    <div class="engagement-card red">
-                        <div class="big-number">-30,7%</div>
-                        <div class="label">⚠️ Caiguda clics 2025 vs 2024</div>
-                    </div>
-                    <div class="engagement-card orange">
-                        <div class="big-number">0,21%</div>
-                        <div class="label">Taxa rebots (excel·lent)</div>
-                    </div>
-                </div>
-                <div class="insight-box">
-                    <p><strong>Anàlisi integral 2022-2026:</strong> El programa d'email marketing ha experimentat un creixement exponencial: +366% en volum (286K→1,33M emails) i +74% en obertura (27,6%→48,0%). El 2024 va marcar el pic d'excel·lència. <strong>⚠️ ALERTA 2025:</strong> Caiguda crítica del 30,7% en taxa de clics (3,35%→2,32%), especialment a CDS (-37%). Causes probables: saturació d'audiència, CTAs menys efectius, o fatiga de contingut. <strong>Fortaleses:</strong> Numismàtica és model de referència (CTOR 26,5%), taxes d'obertura >45% (sector: 15-25%), i base de dades impecable (0,21% rebots). <strong>Acció prioritària:</strong> Revisió urgent de CTAs i estratègia de contingut per recuperar engagement de clics.</p>
-                </div>
-            </div>
+          
         </div>
 
         <!-- Avaluacions Activitats Tab (ACTUALITZADA) -->
@@ -1044,7 +1306,7 @@
                         <thead>
                             <tr>
                                 <th style="width: 50px;">Pos.</th>
-                                <th>ID Activitat</th>
+                                <th>Nom Activitat</th>
                                 <th style="text-align: center;">Avaluacions</th>
                                 <th style="text-align: center;">% Recomanacions</th>
                                 <th style="text-align: center;">Nivell de Satisfacció</th>
@@ -1053,70 +1315,70 @@
                         <tbody>
                             <tr>
                                 <td class="number" style="font-weight: 700; color: #f59e0b;">1</td>
-                                <td class="name">Activitat 746</td>
+                                <td class="name">746 - Una obra 15 minuts</td>
                                 <td class="number">287</td>
                                 <td style="text-align: center;"><span class="badge">94,1%</span></td>
                                 <td style="text-align: center;"><span class="badge excellent">Excel·lent</span></td>
                             </tr>
                             <tr>
                                 <td class="number" style="font-weight: 700; color: #d1d5db;">2</td>
-                                <td class="name">Activitat 669</td>
+                                <td class="name">669 - Visita "Mil Anys d'Art"</td>
                                 <td class="number">276</td>
                                 <td style="text-align: center;"><span class="badge">96,7%</span></td>
                                 <td style="text-align: center;"><span class="badge excellent">Excel·lent</span></td>
                             </tr>
                             <tr>
                                 <td class="number" style="font-weight: 700; color: #cd7f32;">3</td>
-                                <td class="name">Activitat 765</td>
+                                <td class="name">765 - Visites comentades en clau de gènere</td>
                                 <td class="number">148</td>
                                 <td style="text-align: center;"><span class="badge">89,9%</span></td>
                                 <td style="text-align: center;"><span class="badge excellent">Molt Bo</span></td>
                             </tr>
                             <tr>
                                 <td class="number">4</td>
-                                <td class="name">Activitat 806</td>
+                                <td class="name">806 - Visita Palau Nacional</td>
                                 <td class="number">120</td>
                                 <td style="text-align: center;"><span class="badge">97,5%</span></td>
                                 <td style="text-align: center;"><span class="badge excellent">Excel·lent</span></td>
                             </tr>
                             <tr>
                                 <td class="number">5</td>
-                                <td class="name">Activitat 840</td>
+                                <td class="name">840 - Visites comentades - Zurbarán</td>
                                 <td class="number">112</td>
                                 <td style="text-align: center;"><span class="badge">98,2%</span></td>
                                 <td style="text-align: center;"><span class="badge excellent">Excel·lent</span></td>
                             </tr>
                             <tr>
                                 <td class="number">6</td>
-                                <td class="name">Activitat 766</td>
+                                <td class="name">766 - Visita comentada- Mirall perdut</td>
                                 <td class="number">84</td>
                                 <td style="text-align: center;"><span class="badge">97,6%</span></td>
                                 <td style="text-align: center;"><span class="badge excellent">Excel·lent</span></td>
                             </tr>
                             <tr>
                                 <td class="number">7</td>
-                                <td class="name">Activitat 782</td>
+                                <td class="name">782 - Visita comentada -Suzanne Valadon</td>
                                 <td class="number">76</td>
                                 <td style="text-align: center;"><span class="badge">100,0%</span></td>
                                 <td style="text-align: center;"><span class="badge excellent">Outstanding</span></td>
                             </tr>
                             <tr>
                                 <td class="number">8</td>
-                                <td class="name">Activitat 893</td>
+                                <td class="name">893 - Conferencia- Imaginant  el futur dels museus</td>
                                 <td class="number">71</td>
                                 <td style="text-align: center;"><span class="badge">95,8%</span></td>
                                 <td style="text-align: center;"><span class="badge excellent">Excel·lent</span></td>
                             </tr>
                             <tr>
                                 <td class="number">9</td>
-                                <td class="name">Activitat 745</td>
+                                <td class="name">745 - Nadal al MNAC</td>
                                 <td class="number">63</td>
                                 <td style="text-align: center;"><span class="badge">95,2%</span></td>
                                 <td style="text-align: center;"><span class="badge excellent">Excel·lent</span></td>
                             </tr>
                             <tr>
                                 <td class="number">10</td>
-                                <td class="name">Activitat 729</td>
+                                <td class="name">729 - Visita comentada-Quina Humanitat</td>
                                 <td class="number">59</td>
                                 <td style="text-align: center;"><span class="badge">94,9%</span></td>
                                 <td style="text-align: center;"><span class="badge excellent">Excel·lent</span></td>
@@ -1358,9 +1620,44 @@
         // Variables globals
         let charts = {};
 
-        // Dades actualitzades
+        // Dades actualitzades i verificades dels CSV (incloent Butlletí)
         const data = {
-            actives: [54520, 79712],
+            // Totals verificats
+            totals: {
+                total: 225628,
+                enLlistes: 113259,
+                actiusEnLlistes: 72689,
+                senseListta: 112369
+            },
+            // Butlletí per idioma
+            butlleti: {
+                total: 45909,
+                actius: 30293,
+                idiomes: {
+                    labels: ['Català', 'Anglès', 'Castellà'],
+                    totals: [28511, 9984, 6707],
+                    actius: [17526, 7380, 4737],
+                    colors: ['#3b82f6', '#10b981', '#f59e0b']
+                }
+            },
+            // Dades per origen (etiquetes)
+            origen: {
+                labels: ['Ticketing (SEGM_API)', 'Fast Pass', 'Butlletins', 'Heribert', 'Altres'],
+                totals: [140219, 37146, 26308, 1836, 20119],
+                colors: ['#ef4444', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6']
+            },
+            // Taxes d'activitat per llista (verificades)
+            taxesActivitat: {
+                labels: ['Personal', 'Campanyes', 'Invitacions', 'Arxiu', 'Protocol', 'Anglès', 'Castellà', 'Numismàtica', 'Educació', 'Butlletí', 'Famílies', 'Català', 'CDS'],
+                values: [100.0, 94.4, 89.9, 86.5, 84.7, 73.9, 70.6, 70.9, 68.1, 66.0, 63.7, 61.5, 51.8]
+            },
+            // Llistes verificades (incloent butlletí)
+            llistes: {
+                labels: ['Butlletí', 'CDS', 'Educació', 'Campanyes', 'Protocol', 'Famílies', 'Invitacions', 'Arxiu', 'Numismàtica', 'Personal'],
+                totals: [45909, 36664, 13772, 4823, 4419, 3553, 1700, 1285, 1021, 113],
+                actius: [30293, 18974, 9385, 4552, 3745, 2264, 1528, 1111, 724, 113]
+            },
+            actives: [72689, 40570],
             languages: [68309, 46469, 26249, 1768],
             fastPass: [
                 { mes: 'Mar', reserves: 6025, persones: 12739 },
@@ -1448,8 +1745,13 @@
         function initCharts(activeTab) {
             switch(activeTab) {
                 case 'overview':
-                    initActivesChart();
-                    initLanguageChart();
+                    initOrigenChart();
+                    initActivitatChart();
+                    initIdiomaChart();
+                    break;
+                case 'segments':
+                    initSegmentacioChart();
+                    initComparativaChart();
                     break;
                 case 'fastpass':
                     initFastPassChart();
@@ -1465,6 +1767,248 @@
                     initNivellsEducatiusChart();
                     break;
             }
+        }
+
+        function initIdiomaChart() {
+            const ctx = document.getElementById('idiomaChart');
+            if (!ctx) return;
+            
+            if (charts.idioma) charts.idioma.destroy();
+            
+            charts.idioma = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.butlleti.idiomes.labels,
+                    datasets: [{
+                        data: data.butlleti.idiomes.actius,
+                        backgroundColor: data.butlleti.idiomes.colors,
+                        borderWidth: 3,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                usePointStyle: true,
+                                font: { size: 12, weight: 'bold' }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const idx = context.dataIndex;
+                                    const total = data.butlleti.idiomes.totals[idx];
+                                    const actius = context.raw;
+                                    const pct = ((actius / total) * 100).toFixed(1);
+                                    return context.label + ': ' + actius.toLocaleString() + ' actius (' + pct + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initOrigenChart() {
+            const ctx = document.getElementById('origenChart');
+            if (!ctx) return;
+            
+            if (charts.origen) charts.origen.destroy();
+            
+            charts.origen = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.origen.labels,
+                    datasets: [{
+                        data: data.origen.totals,
+                        backgroundColor: data.origen.colors,
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                usePointStyle: true,
+                                font: { size: 11 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = data.totals.total;
+                                    const value = context.raw;
+                                    const percent = ((value / total) * 100).toFixed(1);
+                                    return context.label + ': ' + value.toLocaleString() + ' (' + percent + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initActivitatChart() {
+            const ctx = document.getElementById('activitatChart');
+            if (!ctx) return;
+            
+            if (charts.activitat) charts.activitat.destroy();
+            
+            charts.activitat = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.taxesActivitat.labels,
+                    datasets: [{
+                        label: '% Contactes Actius',
+                        data: data.taxesActivitat.values,
+                        backgroundColor: data.taxesActivitat.values.map(v => 
+                            v >= 80 ? '#10b981' : v >= 60 ? '#3b82f6' : '#f59e0b'
+                        ),
+                        borderRadius: 4,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.raw + '% actius';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 110,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Taxa d\'activitat (%)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initSegmentacioChart() {
+            const ctx = document.getElementById('segmentacioChart');
+            if (!ctx) return;
+            
+            if (charts.segmentacio) charts.segmentacio.destroy();
+            
+            charts.segmentacio = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data.llistes.labels,
+                    datasets: [{
+                        data: data.llistes.totals,
+                        backgroundColor: [
+                            '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', 
+                            '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#6366f1'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: { 
+                                usePointStyle: true,
+                                font: { size: 10 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = data.totals.enLlistes;
+                                    const value = context.raw;
+                                    const percent = ((value / total) * 100).toFixed(1);
+                                    return context.label + ': ' + value.toLocaleString() + ' (' + percent + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initComparativaChart() {
+            const ctx = document.getElementById('comparativaChart');
+            if (!ctx) return;
+            
+            if (charts.comparativa) charts.comparativa.destroy();
+            
+            // Calcular baixa (no subscrits)
+            const baixa = data.llistes.totals.map((t, i) => t - data.llistes.actius[i]);
+            
+            charts.comparativa = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.llistes.labels,
+                    datasets: [{
+                        label: 'Subscrits',
+                        data: data.llistes.actius,
+                        backgroundColor: '#10b981',
+                        borderRadius: 4
+                    }, {
+                        label: 'Baixa',
+                        data: baixa,
+                        backgroundColor: '#f87171',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { 
+                            position: 'top',
+                            labels: { usePointStyle: true }
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            stacked: true,
+                            ticks: {
+                                font: { size: 9 }
+                            }
+                        },
+                        y: { 
+                            stacked: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return (value / 1000).toFixed(0) + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         function initActivesChart() {
@@ -1836,7 +2380,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Dashboard MNAC carregat correctament - Actualitzat 06/02/2026');
+            console.log('Dashboard MNAC carregat correctament - Actualitzat 23/02/2026');
             initTabs();
             initCharts('overview');
         });
